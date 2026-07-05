@@ -3915,6 +3915,31 @@ return [
             'value' => 'reset-btn',
         ],
     ],
+    'download' => [
+        'view' => 'basic',
+        'download_processed' => [
+            'view' => 'basic',
+            'type' => 'button',
+            'placeholder' => 'download_processed',
+            'name' => 'DOWNLOADPROCESSED',
+            'value' => 'download-processed-btn',
+            'note' => sprintf(
+                $languageService->translate('download:processed_count'),
+                $mediaCounts['framed']
+            ),
+        ],
+        'download_raw' => [
+            'view' => 'basic',
+            'type' => 'button',
+            'placeholder' => 'download_raw',
+            'name' => 'DOWNLOADRAW',
+            'value' => 'download-raw-btn',
+            'note' => sprintf(
+                $languageService->translate('download:raw_count'),
+                $mediaCounts['original']
+            ),
+        ],
+    ],
     'version' => [
         'view' => 'basic',
         'check_version' => [

@@ -36,6 +36,38 @@ class AdminInput
         return $attributes;
     }
 
+    /**
+     * Return the private/ upload folder for an asset selector setting, or empty string if none applies.
+     */
+    protected static function getUploadFolder(array $setting): string
+    {
+        $allowedTargets = [
+            'data/tmp',
+            'private/images/background',
+            'private/images/keyingBackgrounds',
+            'private/images/frames',
+            'private/images/logo',
+            'private/images/placeholder',
+            'private/images/cheese',
+            'private/images/demo',
+            'private/fonts',
+            'private/videos/background',
+        ];
+
+        if (!isset($setting['paths']) || !is_array($setting['paths'])) {
+            return '';
+        }
+
+        foreach ($setting['paths'] as $path) {
+            $relative = ltrim(str_replace(PathUtility::getRootPath(), '', (string) $path), '/');
+            if (in_array($relative, $allowedTargets, true)) {
+                return $relative;
+            }
+        }
+
+        return '';
+    }
+
     public static function renderInput(array $setting, string $label): string
     {
         $attributes = self::buildAttributes($setting);
@@ -91,6 +123,7 @@ class AdminInput
     public static function renderButton(array $setting, string $label, string $key, ?array $config = null): string
     {
         $btn = self::renderCta($setting['placeholder'], $setting['value'], $config);
+        $note = $setting['note'] ?? '';
         $info = '';
         switch ($key) {
             case 'check_version':
@@ -114,6 +147,7 @@ class AdminInput
         }
 
         return self::renderHeadline($label) .
+            ($note !== '' ? '<div class="mt-2 text-xs text-gray-600 mb-2">' . htmlspecialchars((string) $note, ENT_QUOTES) . '</div>' : '') .
             $info . '
             <div class="w-full flex flex-col">
                 ' . $btn . '
@@ -251,6 +285,8 @@ class AdminInput
     {
         $languageService = LanguageService::getInstance();
         $images = '';
+        $uploadFolder = self::getUploadFolder($setting);
+        $uploadFolderAttr = $uploadFolder !== '' ? ' data-upload-folder="' . $uploadFolder . '"' : '';
 
         $attributes = self::buildAttributes($setting);
 
@@ -318,7 +354,7 @@ class AdminInput
         $selectedImagePublic = $selectedImage !== '' ? PathUtility::getPublicPath($selectedImage) : '';
 
         return '
-            <div class="adminImageSelection group">
+            <div class="adminImageSelection group"' . $uploadFolderAttr . '>
                 <div class="w-full flex items-start">
                     <div class="w-24 flex mb-3 mr-3 shrink-0 cursor-pointer ' . $hiddenPreview . '" onclick="openAdminImageSelect(this)">
                         <img class="adminImageSelection-preview object-contain border border-brand-1 hover:shadow-lg" src="' . $selectedImagePublic . '">
@@ -362,6 +398,8 @@ class AdminInput
     {
         $languageService = LanguageService::getInstance();
         $fonts = '';
+        $uploadFolder = self::getUploadFolder($setting);
+        $uploadFolderAttr = $uploadFolder !== '' ? ' data-upload-folder="' . $uploadFolder . '"' : '';
 
         $attributes = self::buildAttributes($setting);
 
@@ -417,7 +455,7 @@ class AdminInput
         $selectedFont = $setting['value'];
 
         return '
-            <div class="adminFontSelection group">
+            <div class="adminFontSelection group"' . $uploadFolderAttr . '>
                 <div class="w-full flex items-start">
                     <div class="w-24 flex mb-3 mr-3 shrink-0 cursor-pointer border border-brand-1  hover:shadow-lg" onclick="openAdminFontSelect(this)">
                         ' . FontUtility::getFontPreviewImage(fontPath: $selectedFont, attributes: ['class' => 'adminFontSelection-preview object-contain']) . '
@@ -552,6 +590,9 @@ class AdminInput
     {
         $languageService = LanguageService::getInstance();
         $videos = '';
+        $uploadFolder = self::getUploadFolder($setting);
+        $uploadFolderAttr = $uploadFolder !== '' ? ' data-upload-folder="' . $uploadFolder . '"' : '';
+
         $attributes = self::buildAttributes($setting);
 
         if (isset($setting['paths']) && is_array($setting['paths'])) {
@@ -606,7 +647,7 @@ class AdminInput
         $selectedVideo = $setting['value'];
 
         return '
-            <div class="adminVideoSelection group">
+            <div class="adminVideoSelection group"' . $uploadFolderAttr . '>
                 <div class="w-full flex items-start">
                     <div class="w-24 flex mb-3 mr-3 shrink-0 cursor-pointer border border-brand-1  hover:shadow-lg" onclick="openAdminVideoSelect(this)">
                         ' . VideoUtility::getVideoPreview($selectedVideo, ['class' => 'adminVideoSelection-preview object-contain']) . '

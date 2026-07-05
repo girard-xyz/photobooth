@@ -56,3 +56,5 @@ tools/*/vendor
 scripts/rembg_venv/
 /.venv
 /site
+# Added by code-review-graph
+.code-review-graph/

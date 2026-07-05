@@ -323,6 +323,28 @@ $(function () {
         return false;
     });
 
+    $('#download-processed-btn').on('click', function (ev) {
+        ev.preventDefault();
+        $('.pageLoader').addClass('isActive');
+        window.location.href = '../api/downloadPhotos.php?type=processed&csrf=' + csrf.token;
+        setTimeout(function () {
+            $('.pageLoader').removeClass('isActive');
+        }, 1500);
+
+        return false;
+    });
+
+    $('#download-raw-btn').on('click', function (ev) {
+        ev.preventDefault();
+        $('.pageLoader').addClass('isActive');
+        window.location.href = '../api/downloadPhotos.php?type=raw&csrf=' + csrf.token;
+        setTimeout(function () {
+            $('.pageLoader').removeClass('isActive');
+        }, 1500);
+
+        return false;
+    });
+
     $('#reboot-btn').on('click', function (ev) {
         ev.preventDefault();
         shellCommand('reboot');
