@@ -15,7 +15,7 @@ final class LogoConfiguration
                 ->booleanNode('enabled')->defaultValue(true)->end()
                 ->scalarNode('path')->defaultValue('')->end()
                 ->enumNode('position')
-                    ->values(['center', 'top_right', 'top_left', 'bottom_right', 'bottom_left'])
+                    ->values(['center', 'top_right', 'top_left', 'bottom_right', 'bottom_left', 'fullscreen'])
                     ->defaultValue('center')
                     ->end()
             ->end();

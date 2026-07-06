@@ -32,7 +32,8 @@ function initStartpageTextPositionConstraint() {
     }
 
     const sync = function () {
-        const isCenteredLogo = $logoEnabled.is(':checked') && $logoPosition.val() === 'center';
+        const logoVal = $logoPosition.val();
+        const isCenteredLogo = $logoEnabled.is(':checked') && (logoVal === 'center' || logoVal === 'fullscreen');
 
         $textPosition.find('option').each(function () {
             const shouldDisable = isCenteredLogo && this.value !== 'bottom';

@@ -17,10 +17,18 @@ class Environment implements \JsonSerializable
         return self::getOperatingSystem() === 'windows';
     }
 
+    public static function isMacos(): bool
+    {
+        return self::getOperatingSystem() === 'macos';
+    }
+
     public static function getOperatingSystem(): string
     {
-        return (stripos(PHP_OS, 'darwin') === false
-            && stripos(PHP_OS, 'cygwin') === false
+        if (stripos(PHP_OS, 'darwin') !== false) {
+            return 'macos';
+        }
+
+        return (stripos(PHP_OS, 'cygwin') === false
             && stripos(PHP_OS, 'win') !== false)
             ? 'windows'
             : 'linux';
@@ -37,6 +45,9 @@ class Environment implements \JsonSerializable
         if (self::isLinux()) {
             $ip = trim((string) (shell_exec('hostname -I') ?: ''));
             $cachedIp = $ip === '' ? '' : (preg_split('/\s+/', $ip)[0] ?? '');
+        } elseif (self::isMacos()) {
+            $ip = trim((string) (shell_exec('ipconfig getifaddr en0') ?: shell_exec('ipconfig getifaddr en1') ?: ''));
+            $cachedIp = $ip === '' ? (isset($_SERVER['HTTP_HOST']) ? (string) $_SERVER['HTTP_HOST'] : '') : $ip;
         } else {
             $cachedIp = isset($_SERVER['HTTP_HOST']) ? (string) $_SERVER['HTTP_HOST'] : '';
         }

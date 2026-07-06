@@ -41,6 +41,21 @@ final class CommandsConfiguration
                 'pre_photo'     => '',
                 'post_photo'    => '',
             ],
+            'macos' => [
+                'take_picture'  => '',
+                'take_collage'  => '',
+                'take_video'    => '',
+                'take_custom'   => '',
+                'print'         => 'lp -o landscape -o fit-to-page %s',
+                'exiftool'      => 'exiftool -overwrite_original -TagsFromFile %s %s',
+                'nodebin'       => '/usr/local/bin/node',
+                'reboot'        => 'osascript -e \'tell app "System Events" to restart\'',
+                'shutdown'      => 'osascript -e \'tell app "System Events" to shut down\'',
+                'preview'       => '',
+                'preview_kill'  => '',
+                'pre_photo'     => '',
+                'post_photo'    => '',
+            ],
         ];
 
         $os = Environment::getOperatingSystem();

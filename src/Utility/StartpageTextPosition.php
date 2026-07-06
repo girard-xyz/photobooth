@@ -37,7 +37,7 @@ final class StartpageTextPosition
     {
         $isLogoEnabled = $logoEnabled === true || $logoEnabled === 'true';
 
-        if ($isLogoEnabled && $logoPosition === 'center') {
+        if ($isLogoEnabled && in_array($logoPosition, ['center', 'fullscreen'], true)) {
             return self::DEFAULT_POSITION;
         }
 

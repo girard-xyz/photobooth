@@ -521,6 +521,7 @@ return [
                 'top_left' => 'Top Left',
                 'bottom_right' => 'Bottom Right',
                 'bottom_left' => 'Bottom Left',
+                'fullscreen' => 'Fullscreen',
             ],
             'data-theme-field' => 'true',
             'value' => $config['logo']['position'],
