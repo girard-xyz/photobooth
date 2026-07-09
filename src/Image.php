@@ -179,6 +179,12 @@ class Image
     public int $frameExtendTop = 0;
 
     /**
+     * Use the frame's native dimensions as the output canvas,
+     * center-cropping the photo to fill behind the frame.
+     */
+    public bool $frameAsCanvas = false;
+
+    /**
      *
      * Add picture to image source Difinitions
      *
@@ -808,6 +814,68 @@ class Image
             }
 
             // Return unmodified resource
+            return $sourceResource;
+        }
+    }
+
+    /**
+     * Apply the frame as the canvas: the frame determines the output size,
+     * the photo is center-cropped to fill the canvas, then the frame is overlaid.
+     */
+    public function applyFrameAsCanvas(GdImage $sourceResource): GdImage
+    {
+        try {
+            $frame = self::createFromImage($this->framePath);
+            if (!$frame instanceof \GdImage) {
+                throw new \Exception('Failed to create frame from image.');
+            }
+
+            $frameWidth = imagesx($frame);
+            $frameHeight = imagesy($frame);
+
+            // Create canvas at frame's native dimensions
+            $canvas = imagecreatetruecolor($frameWidth, $frameHeight);
+            if (!$canvas instanceof \GdImage) {
+                throw new \Exception('Cannot create canvas.');
+            }
+            $white = intval(imagecolorallocate($canvas, 255, 255, 255));
+            if (!imagefill($canvas, 0, 0, $white)) {
+                throw new \Exception('Cannot fill canvas.');
+            }
+
+            // Center-crop the photo to fill the canvas dimensions
+            $croppedPhoto = $this->resizeCropImage($sourceResource, $frameWidth, $frameHeight);
+            if (!$croppedPhoto instanceof \GdImage) {
+                throw new \Exception('Cannot crop photo to frame dimensions.');
+            }
+
+            // Paste the cropped photo onto the canvas
+            if (!imagecopy($canvas, $croppedPhoto, 0, 0, 0, 0, $frameWidth, $frameHeight)) {
+                throw new \Exception('Cannot paste photo onto canvas.');
+            }
+            unset($croppedPhoto);
+
+            // Overlay the frame at its native resolution
+            if (!imagecopy($canvas, $frame, 0, 0, 0, 0, $frameWidth, $frameHeight)) {
+                throw new \Exception('Cannot overlay frame.');
+            }
+
+            $this->imageModified = true;
+            return $canvas;
+        } catch (\Exception $e) {
+            $this->addErrorData($e->getMessage());
+
+            if (isset($canvas) && $canvas instanceof GdImage) {
+                unset($canvas);
+            }
+            if (isset($frame) && $frame instanceof GdImage) {
+                unset($frame);
+            }
+
+            if ($this->debugLevel > 1) {
+                throw $e;
+            }
+
             return $sourceResource;
         }
     }

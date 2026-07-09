@@ -105,6 +105,7 @@ final class PictureConfiguration
                 ->booleanNode('take_frame')->defaultValue(true)->end()
                 ->scalarNode('frame')->defaultValue('')->end()
                 ->booleanNode('extend_by_frame')->defaultValue(true)->end()
+                ->booleanNode('frame_as_canvas')->defaultValue(false)->end()
                 ->integerNode('frame_left_percentage')
                     ->defaultValue(10)
                     ->min(0)

@@ -215,7 +215,12 @@ try {
                     } else {
                         $imageHandler->frameExtend = false;
                     }
-                    $imageResource = $imageHandler->applyFrame($imageResource);
+
+                    if ($config['picture']['frame_as_canvas'] && !$vars['isCollage']) {
+                        $imageResource = $imageHandler->applyFrameAsCanvas($imageResource);
+                    } else {
+                        $imageResource = $imageHandler->applyFrame($imageResource);
+                    }
                     if (!$imageResource instanceof \GdImage) {
                         throw new \Exception('Error applying frame to image resource.');
                     }

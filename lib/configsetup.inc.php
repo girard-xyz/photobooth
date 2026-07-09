@@ -805,6 +805,13 @@ return [
             'data-theme-field' => 'true',
             'value' => $config['picture']['extend_by_frame'],
         ],
+        'picture_frame_as_canvas' => [
+            'view' => 'expert',
+            'type' => 'checkbox',
+            'name' => 'picture[frame_as_canvas]',
+            'data-theme-field' => 'true',
+            'value' => $config['picture']['frame_as_canvas'],
+        ],
         'picture_frame_left_percentage' => [
             'view' => 'expert',
             'type' => 'range',
