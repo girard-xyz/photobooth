@@ -24,9 +24,7 @@ class FileUtility
                 throw new \Exception('Failed to create directory: ' . $directory);
             }
         } elseif (!is_writable($directory)) {
-            if (!chmod($directory, self::DIRECTORY_PERMISSIONS)) {
-                throw new \Exception('Failed to change permissions of directory: ' . $directory);
-            }
+            @chmod($directory, self::DIRECTORY_PERMISSIONS);
         }
     }
 
