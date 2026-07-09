@@ -10,6 +10,7 @@ RUN echo "LimitRequestLine 12000" > /opt/docker/etc/httpd/conf.d/limits.conf \
         fswebcam \
         git \
         gphoto2 \
+        imagemagick \
         libimage-exiftool-perl \
         rsync \
         udisks2 \
