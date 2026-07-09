@@ -7,6 +7,7 @@ RUN echo "LimitRequestLine 12000" > /opt/docker/etc/httpd/conf.d/limits.conf \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         build-essential \
+        fswebcam \
         git \
         gphoto2 \
         libimage-exiftool-perl \
@@ -24,7 +25,8 @@ RUN echo "LimitRequestLine 12000" > /opt/docker/etc/httpd/conf.d/limits.conf \
 WORKDIR /app
 COPY . .
 
-RUN chown -R application:application /app
+RUN chown -R application:application /app \
+    && usermod -a -G video application
 
 # switch to application user
 USER application
