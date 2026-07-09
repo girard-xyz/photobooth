@@ -7,6 +7,7 @@ RUN echo "LimitRequestLine 12000" > /opt/docker/etc/httpd/conf.d/limits.conf \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         build-essential \
+        cups-client \
         fswebcam \
         git \
         gphoto2 \
@@ -27,7 +28,7 @@ WORKDIR /app
 COPY . .
 
 RUN chown -R application:application /app \
-    && usermod -a -G video application
+    && usermod -a -G video,lp application
 
 # switch to application user
 USER application
