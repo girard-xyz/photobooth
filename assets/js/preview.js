@@ -99,13 +99,17 @@ const photoboothPreview = (function () {
             }
         }
 
+        const videoConstraints = {
+            width: videoWidth,
+            height: videoHeight,
+            facingMode: config.preview.camera_mode
+        };
+        if (config.preview.videoDevice) {
+            videoConstraints.deviceId = { exact: config.preview.videoDevice };
+        }
         const webcamConstraints = {
             audio: false,
-            video: {
-                width: videoWidth,
-                height: videoHeight,
-                facingMode: config.preview.camera_mode
-            }
+            video: videoConstraints
         };
 
         getMedia

@@ -96,6 +96,7 @@ final class PreviewConfiguration
                     ->values(['user', 'environment'])
                     ->defaultValue('user')
                     ->end()
+                ->scalarNode('videoDevice')->defaultValue('')->end()
                 ->booleanNode('asBackground')->defaultValue(false)->end()
                 ->booleanNode('showFrame')->defaultValue(false)->end()
                 ->booleanNode('extend_by_frame')->defaultValue(false)->end()

@@ -883,7 +883,7 @@ const photoBooth = (function () {
                 url: environment.publicFolders.api + '/capture.php',
                 method: 'POST',
                 data: data,
-                timeout: 25000
+                timeout: 60000
             })
             .done(async (result) => {
                 try {

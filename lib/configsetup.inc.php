@@ -1853,6 +1853,13 @@ return [
             ],
             'value' => $config['preview']['camera_mode'],
         ],
+        'preview_videoDevice' => [
+            'view' => 'expert',
+            'type' => 'text',
+            'name' => 'preview[videoDevice]',
+            'placeholder' => $defaultConfig['preview']['videoDevice'],
+            'value' => $config['preview']['videoDevice'],
+        ],
         'preview_asBackground' => [
             'type' => 'checkbox',
             'name' => 'preview[asBackground]',
