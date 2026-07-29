@@ -1855,7 +1855,7 @@ return [
         ],
         'preview_videoDevice' => [
             'view' => 'advanced',
-            'type' => 'text',
+            'type' => 'input',
             'name' => 'preview[videoDevice]',
             'placeholder' => $defaultConfig['preview']['videoDevice'],
             'value' => $config['preview']['videoDevice'],
