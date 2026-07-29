@@ -1854,7 +1854,7 @@ return [
             'value' => $config['preview']['camera_mode'],
         ],
         'preview_videoDevice' => [
-            'view' => 'expert',
+            'view' => 'advanced',
             'type' => 'text',
             'name' => 'preview[videoDevice]',
             'placeholder' => $defaultConfig['preview']['videoDevice'],
